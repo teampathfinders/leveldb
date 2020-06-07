@@ -1,0 +1,13 @@
+build
+
+BuildOutput/
+**/.vs
+*.user
+*.sdf
+*.opensdf
+*.exe
+*.dll
+*.pdb
+*.obj
+*.ilk
+*.suo

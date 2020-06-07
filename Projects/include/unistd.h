@@ -1,0 +1,1 @@
+// This file is only here so leveldb-mcpe/db/c.cc (which includes this file) doesn't explode
