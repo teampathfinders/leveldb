@@ -158,13 +158,13 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 ################################################################################
 if("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x64")
     set_target_properties(${PROJECT_NAME} PROPERTIES
-        TARGET_NAME_DEBUG   "leveldb-mcpe"
-        TARGET_NAME_RELEASE "leveldb-mcpe"
+        TARGET_NAME_DEBUG   "leveldb"
+        TARGET_NAME_RELEASE "leveldb"
     )
 elseif("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x86")
     set_target_properties(${PROJECT_NAME} PROPERTIES
-        TARGET_NAME_DEBUG   "leveldb-mcpe"
-        TARGET_NAME_RELEASE "leveldb-mcpe"
+        TARGET_NAME_DEBUG   "leveldb"
+        TARGET_NAME_RELEASE "leveldb"
     )
 endif()
 ################################################################################

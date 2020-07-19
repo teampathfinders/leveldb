@@ -1,6 +1,6 @@
 build
+x64
 
-BuildOutput/
 **/.vs
 *.user
 *.sdf
