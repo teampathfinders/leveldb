@@ -170,17 +170,17 @@ endif()
 ################################################################################
 # Output directory
 ################################################################################
-if("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x64")
-    set_target_properties(${PROJECT_NAME} PROPERTIES
-        OUTPUT_DIRECTORY_DEBUG   "${CMAKE_SOURCE_DIR}/BuildOutput/${PROJECT_NAME}/${CMAKE_VS_PLATFORM_NAME}/$<CONFIG>/"
-        OUTPUT_DIRECTORY_RELEASE "${CMAKE_SOURCE_DIR}/BuildOutput/${PROJECT_NAME}/${CMAKE_VS_PLATFORM_NAME}/$<CONFIG>/"
-    )
-elseif("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x86")
-    set_target_properties(${PROJECT_NAME} PROPERTIES
-        OUTPUT_DIRECTORY_DEBUG   "${CMAKE_SOURCE_DIR}/BuildOutput/${PROJECT_NAME}/${CMAKE_VS_PLATFORM_NAME}/$<CONFIG>/"
-        OUTPUT_DIRECTORY_RELEASE "${CMAKE_SOURCE_DIR}/BuildOutput/${PROJECT_NAME}/${CMAKE_VS_PLATFORM_NAME}/$<CONFIG>/"
-    )
-endif()
+# if("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x64")
+#     set_target_properties(${PROJECT_NAME} PROPERTIES
+#         OUTPUT_DIRECTORY_DEBUG   "${CMAKE_SOURCE_DIR}/BuildOutput/${PROJECT_NAME}/${CMAKE_VS_PLATFORM_NAME}/$<CONFIG>/"
+#         OUTPUT_DIRECTORY_RELEASE "${CMAKE_SOURCE_DIR}/BuildOutput/${PROJECT_NAME}/${CMAKE_VS_PLATFORM_NAME}/$<CONFIG>/"
+#     )
+# elseif("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x86")
+#     set_target_properties(${PROJECT_NAME} PROPERTIES
+#         OUTPUT_DIRECTORY_DEBUG   "${CMAKE_SOURCE_DIR}/BuildOutput/${PROJECT_NAME}/${CMAKE_VS_PLATFORM_NAME}/$<CONFIG>/"
+#         OUTPUT_DIRECTORY_RELEASE "${CMAKE_SOURCE_DIR}/BuildOutput/${PROJECT_NAME}/${CMAKE_VS_PLATFORM_NAME}/$<CONFIG>/"
+#     )
+# endif()
 ################################################################################
 # MSVC runtime library
 ################################################################################

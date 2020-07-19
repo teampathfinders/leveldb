@@ -8,7 +8,6 @@
 #define _WIN32_WINNT 0x0600
 //#define close close
 
-#include <synchapi.h>
 #include <windows.h>
 #include <errno.h>
 #include <fcntl.h>

@@ -136,9 +136,6 @@ example.obj: $(TOP)/test/example.c $(TOP)/zlib.h $(TOP)/zconf.h
 
 minigzip.obj: $(TOP)/test/minigzip.c $(TOP)/zlib.h $(TOP)/zconf.h
 
-zlib1.res: $(TOP)/win32/zlib1.rc
-	$(RC) $(RCFLAGS) /fo$@ $(TOP)/win32/zlib1.rc
-
 # testing
 test: example.exe minigzip.exe
 	example
