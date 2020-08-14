@@ -91,3 +91,5 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 # Sub-projects
 ################################################################################
 add_subdirectory("Project Files/leveldb-mcpe")
+
+link_directories("Project Files/leveldb-mcpe/LevelDB-MCPE.dir")
