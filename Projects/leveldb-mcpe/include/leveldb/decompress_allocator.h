@@ -7,6 +7,12 @@
 #include <vector>
 #include <string>
 
+// Suppress dll-interface warning
+#if _MSC_VER && !__INTEL_COMPILER
+#pragma warning(push)
+#pragma warning(disable : 4251)
+#endif
+
 namespace leveldb {
     class DLLX DecompressAllocator {
         public:
@@ -22,5 +28,9 @@ namespace leveldb {
                 std::vector<std::string> stack;
     };
 }
+
+#if _MSC_VER && !__INTEL_COMPILER
+#pragma warning(pop)
+#endif
 
 #endif
