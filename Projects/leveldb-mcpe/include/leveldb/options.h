@@ -10,6 +10,8 @@
 #include <memory>
 #include <unordered_map>
 
+#include "ddlx.h"
+
 namespace leveldb {
 
 class DLLX Cache;
