@@ -371,7 +371,7 @@ Status DBImpl::RecoverLogFile(uint64_t log_number, bool last_log,
     Env* env;
     Logger* info_log;
     const char* fname;
-    Status* status;  // NULL if options.paranoid_checks==false
+    Status* status;  // NULL if options_.paranoid_checks==false
     virtual void Corruption(size_t bytes, const Status& s) {
       Log(info_log, "%s%s: dropping %d bytes; %s",
           (this->status == NULL ? "(ignoring error) " : ""),
