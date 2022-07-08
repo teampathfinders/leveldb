@@ -371,7 +371,7 @@ Status DBImpl::RecoverLogFile(uint64_t log_number, bool last_log,
     Env* env;
     Logger* info_log;
     const char* fname;
-    Status* status;  // NULL if options_.paranoid_checks==false
+    Status* status;  // NULL if options.paranoid_checks==false
     virtual void Corruption(size_t bytes, const Status& s) {
       Log(info_log, "%s%s: dropping %d bytes; %s",
           (this->status == NULL ? "(ignoring error) " : ""),
@@ -996,7 +996,7 @@ Status DBImpl::DoCompactionWork(CompactionState* compact) {
       last_sequence_for_key = ikey.sequence;
     }
 #if 0
-    Log(options_.info_log,
+    Log(options.info_log,
         "  Compact: %s, seq %d, type: %d %d, drop: %d, is_base: %d, "
         "%d smallest_snapshot: %d",
         ikey.user_key.ToString().c_str(),
