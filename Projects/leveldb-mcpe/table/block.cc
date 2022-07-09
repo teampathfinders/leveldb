@@ -106,7 +106,7 @@ class Block::Iter : public Iterator {
     restart_index_ = index;
     // current_ will be fixed by ParseNextKey();
 
-    // ParseNextKey() starts at the end of value_, so set value_ accordingly
+    // ParseNextKey() starts at the end of map_, so set map_ accordingly
     uint32_t offset = GetRestartPoint(index);
     value_ = Slice(data_ + offset, 0);
   }
