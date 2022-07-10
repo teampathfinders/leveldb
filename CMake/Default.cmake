@@ -35,7 +35,7 @@ function(create_property_reader NAME)
     set(IS_CONFIG_VALUE_EMPTY "$<STREQUAL:${CONFIG_VALUE},>")
     set(GENERAL_VALUE "$<TARGET_GENEX_EVAL:${PROPS_TARGET},$<TARGET_PROPERTY:${PROPS_TARGET},${NAME}>>")
     set("${NAME}" "$<IF:${IS_CONFIG_VALUE_EMPTY},${GENERAL_VALUE},${CONFIG_VALUE}>" PARENT_SCOPE)
-    variable_watch("${NAME}" property_reader_guard)
+    #variable_watch("${NAME}" property_reader_guard)
 endfunction()
 
 ################################################################################
