@@ -20,7 +20,7 @@
 #include <string.h>
 #include <string>
 
-#include "dllx.h"
+#include "pathfinders_support.h"
 
 namespace leveldb {
 
