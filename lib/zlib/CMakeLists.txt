@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.4.4)
+cmake_minimum_required(VERSION 3.0)
 set(CMAKE_ALLOW_LOOSE_LOOP_CONSTRUCTS ON)
 
 project(zlib C)
@@ -176,6 +176,10 @@ add_library(zlib SHARED ${ZLIB_SRCS} ${ZLIB_ASMS} ${ZLIB_PUBLIC_HDRS} ${ZLIB_PRI
 add_library(zlibstatic STATIC ${ZLIB_SRCS} ${ZLIB_ASMS} ${ZLIB_PUBLIC_HDRS} ${ZLIB_PRIVATE_HDRS})
 set_target_properties(zlib PROPERTIES DEFINE_SYMBOL ZLIB_DLL)
 set_target_properties(zlib PROPERTIES SOVERSION 1)
+
+if(MSVC)
+    target_compile_options(${PROJECT_NAME} PRIVATE /w)
+endif()
 
 if(NOT CYGWIN)
     # This property causes shared libraries on Linux to have the full version

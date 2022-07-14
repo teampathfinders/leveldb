@@ -1,40 +1,75 @@
 cmake_minimum_required(VERSION 3.0 FATAL_ERROR)
-
-set(CMAKE_TRY_COMPILE_TARGET_TYPE "STATIC_LIBRARY")
-set(CMAKE_SYSTEM_VERSION 10 CACHE STRING "" FORCE)
-set(CMAKE_CXX_STANDARD 11)
-
 project(leveldb-mcpe C CXX)
 
-add_definitions(-DLEVELDB_EXPORTS -lstdc++)
+set(CMAKE_CXX_STANDARD 11)
+set(Source_Files
+    "src/db/builder.cc"
+    "src/db/c.cc"
+    "src/db/db_impl.cc"
+    "src/db/db_iter.cc"
+    "src/db/dbformat.cc"
+    "src/db/dumpfile.cc"
+    "src/db/filename.cc"
+    "src/db/leveldbutil.cc"
+    "src/db/log_reader.cc"
+    "src/db/log_writer.cc"
+    "src/db/memtable.cc"
+    "src/db/repair.cc"
+    "src/db/snappy_compressor.cc"
+    "src/db/table_cache.cc"
+    "src/db/version_edit.cc"
+    "src/db/version_set.cc"
+    "src/db/write_batch.cc"
+    "src/db/zlib_compressor.cc"
+    "src/helpers/memenv/memenv.cc"
+    "src/port/port_posix_sse.cc"
+    "src/port/port_win.cc"
+    "src/table/block.cc"
+    "src/table/block_builder.cc"
+    "src/table/filter_block.cc"
+    "src/table/format.cc"
+    "src/table/iterator.cc"
+    "src/table/merger.cc"
+    "src/table/table.cc"
+    "src/table/table_builder.cc"
+    "src/table/two_level_iterator.cc"
+    "src/util/arena.cc"
+    "src/util/bloom.cc"
+    "src/util/cache.cc"
+    "src/util/coding.cc"
+    "src/util/comparator.cc"
+    "src/util/crc32c.cc"
+    "src/util/env.cc"
+    "src/util/env_win.cc"
+    "src/util/filter_policy.cc"
+    "src/util/hash.cc"
+    "src/util/histogram.cc"
+    "src/util/logging.cc"
+    "src/util/options.cc"
+    "src/util/status.cc"
+    "src/util/win_logger.cc"
+    "lib/zlib/adler32.c"
+    "lib/zlib/compress.c"
+    "lib/zlib/crc32.c"
+    "lib/zlib/deflate.c"
+    "lib/zlib/gzclose.c"
+    "lib/zlib/gzlib.c"
+    "lib/zlib/gzread.c"
+    "lib/zlib/gzwrite.c"
+    "lib/zlib/infback.c"
+    "lib/zlib/inffast.c"
+    "lib/zlib/inflate.c"
+    "lib/zlib/inftrees.c"
+    "lib/zlib/trees.c"
+    "lib/zlib/uncompr.c"
+    "lib/zlib/zutil.c"
+)
+
 add_subdirectory("lib/zlib")
+add_library(${PROJECT_NAME} STATIC ${Source_Files})
+target_include_directories(${PROJECT_NAME} PUBLIC "lib" "include/port" "include")
 
-################################################################################
-# Set target arch type if empty. Visual studio solution generator provides it.
-################################################################################
-if(NOT CMAKE_VS_PLATFORM_NAME)
-    set(CMAKE_VS_PLATFORM_NAME "x64")
+# Supress warnings
+if(MSVC)
+    target_compile_options(${PROJECT_NAME} PRIVATE /w)
 endif()
-message("${CMAKE_VS_PLATFORM_NAME} architecture in use")
-
-if(NOT ("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x64"
-     OR "${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x86"))
-    message(FATAL_ERROR "${CMAKE_VS_PLATFORM_NAME} arch is not supported!")
-endif()
-
-################################################################################
-# Common utils
-################################################################################
-include(CMake/Utils.cmake)
-
-################################################################################
-# Additional Global Settings(add specific info there)
-################################################################################
-include(CMake/GlobalSettingsInclude.cmake OPTIONAL)
-
-################################################################################
-# Sub-projects
-################################################################################
-add_subdirectory("leveldb-mcpe")
-
-link_directories("leveldb-mcpe/LevelDB-MCPE.dir")

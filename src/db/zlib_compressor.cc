@@ -2,7 +2,7 @@
 
 #include "leveldb/zlib_compressor.h"
 
-#include <zlib.h>
+#include <zlib/zlib.h>
 #include <algorithm>
 
 namespace leveldb {
