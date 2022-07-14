@@ -6,11 +6,7 @@
 
 #include <cstdint>
 
-#ifdef INTPTR_MAX == INT64_MAX
-    using ssize_t = int64_t;
-#elif INTPTR_MAX == INT32_MAX
-    using ssize_t = int32_t;
-#endif
+using ssize_t = intptr_t;
 
 // Static libraries don't need anything
 #define DLLX
