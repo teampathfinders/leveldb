@@ -1,6 +1,7 @@
 build
 x64
 
+.idea
 **/.vs
 *.user
 *.sdf
