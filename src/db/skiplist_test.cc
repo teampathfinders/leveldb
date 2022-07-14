@@ -2,13 +2,13 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file. See the AUTHORS file for names of contributors.
 
-#include "db/skiplist.h"
+#include "leveldb/db/skiplist.h"
 #include <set>
 #include "leveldb/env.h"
-#include "util/arena.h"
-#include "util/hash.h"
-#include "util/random.h"
-#include "util/testharness.h"
+#include "leveldb/util/arena.h"
+#include "leveldb/util/hash.h"
+#include "leveldb/util/random.h"
+#include "leveldb/util/testharness.h"
 
 namespace leveldb {
 
@@ -308,7 +308,7 @@ class TestState {
 
   explicit TestState(int s)
       : seed_(s),
-        quit_flag_(NULL),
+        quit_flag_(nullptr),
         state_(STARTING),
         state_cv_(&mu_) {}
 
@@ -360,7 +360,7 @@ static void RunConcurrent(int run) {
     for (int i = 0; i < kSize; i++) {
       state.t_.WriteStep(&rnd);
     }
-    state.quit_flag_.Release_Store(&state);  // Any non-NULL arg will do
+    state.quit_flag_.Release_Store(&state);  // Any non-nullptr arg will do
     state.Wait(TestState::DONE);
   }
 }

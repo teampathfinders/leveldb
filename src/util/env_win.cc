@@ -21,9 +21,9 @@
 #include "leveldb/env.h"
 #include "leveldb/slice.h"
 
-#include "util/win_logger.h"
+#include "leveldb/util/win_logger.h"
 #include "port/port.h"
-#include "util/logging.h"
+#include "leveldb/util/logging.h"
 
 #include <fstream>
 #include <algorithm>
@@ -193,10 +193,10 @@ namespace leveldb {
 				fileHandle = CreateFileA(path.c_str(),
 					GENERIC_READ | GENERIC_WRITE,
 					FILE_SHARE_DELETE | FILE_SHARE_READ,
-					NULL,
+					nullptr,
 					OPEN_ALWAYS,
 					FILE_ATTRIBUTE_NORMAL,
-					NULL);
+					nullptr);
 				fileSizeLow = GetFileSize(fileHandle, &fileSizeHigh);
 				LockFile(fileHandle, 0, 0, fileSizeLow, fileSizeHigh);
 			}
@@ -221,8 +221,8 @@ namespace leveldb {
 			virtual Status NewSequentialFile(const std::string& fname,
 				SequentialFile** result) {
 				FILE* f = fopen(fname.c_str(), "rb");
-				if(f == NULL) {
-					*result = NULL;
+				if(f == nullptr) {
+					*result = nullptr;
 					return Status::IOError(fname, strerror(errno));
 				} else {
 					*result = new WinSequentialFile(fname, f);
@@ -238,7 +238,7 @@ namespace leveldb {
 				int fd = open(fname.c_str(), O_RDONLY);
 #endif
 				if(fd < 0) {
-					*result = NULL;
+					*result = nullptr;
 					return Status::IOError(fname, strerror(errno));
 				}
 				*result = new WinRandomAccessFile(fname, fd);
@@ -264,13 +264,13 @@ namespace leveldb {
 			}
 			Status getLastWindowsError(const std::string& name) {
 				char lpBuffer[256] = "?";
-				FormatMessageA(FORMAT_MESSAGE_FROM_SYSTEM,                 // It´s a system error
-					NULL,                                      // No string to be formatted needed
+				FormatMessageA(FORMAT_MESSAGE_FROM_SYSTEM,                 // Itï¿½s a system error
+					nullptr,                                      // No string to be formatted needed
 					GetLastError(),                               // Hey Windows: Please explain this error!
 					MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),  // Do it in the standard language
 					lpBuffer,              // Put the message here
 					sizeof(lpBuffer) - 1,                     // Number of bytes to store the message
-					NULL);
+					nullptr);
 				return Status::IOError(name, lpBuffer);
 			}
 			virtual Status GetChildren(const std::string& dir,
@@ -312,11 +312,11 @@ namespace leveldb {
 				// Create parent directories
 				for(LPTSTR p = strchr(tmpName, '\\'); p; p = strchr(p + 1, '\\')) {
 					*p = 0;
-					::CreateDirectoryA(tmpName, NULL);  // may or may not already exist
+					::CreateDirectoryA(tmpName, nullptr);  // may or may not already exist
 					*p = '\\';
 				}
 
-				::CreateDirectoryA(path.c_str(), NULL);
+				::CreateDirectoryA(path.c_str(), nullptr);
 				return Status::OK();
 			};
 
@@ -329,15 +329,15 @@ namespace leveldb {
 				pszFrom[len + 1] = 0;
 
 				SHFILEOPSTRUCTA fileop;
-				fileop.hwnd = NULL;    // no status display
+				fileop.hwnd = nullptr;    // no status display
 				fileop.wFunc = FO_DELETE;  // delete operation
 				fileop.pFrom = pszFrom;  // source file name as double null terminated string
-				fileop.pTo = NULL;    // no destination needed
+				fileop.pTo = nullptr;    // no destination needed
 				fileop.fFlags = FOF_NOCONFIRMATION | FOF_SILENT;  // do not prompt the user
 
 				fileop.fAnyOperationsAborted = FALSE;
-				fileop.lpszProgressTitle = NULL;
-				fileop.hNameMappings = NULL;
+				fileop.lpszProgressTitle = nullptr;
+				fileop.hNameMappings = nullptr;
 
 				int ret = SHFileOperationA(&fileop);
 				delete[] pszFrom;
@@ -353,10 +353,10 @@ namespace leveldb {
 				HANDLE fileHandle = CreateFileA(fname.c_str(),
 					GENERIC_READ | GENERIC_WRITE,
 					FILE_SHARE_DELETE | FILE_SHARE_READ,
-					NULL,
+					nullptr,
 					OPEN_ALWAYS,
 					FILE_ATTRIBUTE_NORMAL,
-					NULL);
+					nullptr);
 				if(fileHandle == 0) {
 					return getLastWindowsError(fname);
 				}
@@ -381,7 +381,7 @@ namespace leveldb {
 			}
 
 			virtual Status LockFile(const std::string& fname, FileLock** lock) {
-				*lock = NULL;
+				*lock = nullptr;
 
 				Status status;
 				if(!FileExists(fname)) {
@@ -424,8 +424,8 @@ namespace leveldb {
 
 			virtual Status NewLogger(const std::string& fname, Logger** result) {
 				FILE* f = fopen(fname.c_str(), "wt");
-				if(f == NULL) {
-					*result = NULL;
+				if(f == nullptr) {
+					*result = nullptr;
 					return Status::IOError(fname, strerror(errno));
 				} else {
 #ifdef WIN32
@@ -500,7 +500,7 @@ namespace leveldb {
 
 			static void* BGThreadWrapper(void* arg) {
 				reinterpret_cast<WinEnv*>(arg)->BGThread();
-				return NULL;
+				return nullptr;
 			}
 
 			std::mutex mu_;
@@ -573,7 +573,7 @@ namespace leveldb {
  			state->arg = arg;
 			DWORD     thread_id;
  			CreateThread(
- 				NULL,                   // default security attributes
+ 				nullptr,                   // default security attributes
  				0,                      // use default stack size  
 				StartThreadWrapper,       // thread function name
  				state,          // argument to thread function 
@@ -601,10 +601,10 @@ namespace leveldb {
 	}
 
 	Env* Env::Default() {
-		PVOID lpContext = NULL;
+		PVOID lpContext = nullptr;
 		InitOnceExecuteOnce(&g_InitOnce,          // One-time initialization structure
 			InitDefaultEnv,   // Pointer to initialization callback function
-			NULL,                 // Optional parameter to callback function (not used)
+			nullptr,                 // Optional parameter to callback function (not used)
 			&lpContext);          // Receives pointer to event object stored in g_InitOnce
 
 		return default_env;

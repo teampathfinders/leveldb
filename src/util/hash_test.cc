@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file. See the AUTHORS file for names of contributors.
 
-#include "util/hash.h"
-#include "util/testharness.h"
+#include "leveldb/util/hash.h"
+#include "leveldb/util/testharness.h"
 
 namespace leveldb {
 

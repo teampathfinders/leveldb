@@ -2,12 +2,12 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file. See the AUTHORS file for names of contributors.
 
-#include "helpers/memenv/memenv.h"
+#include "leveldb/helpers/memenv/memenv.h"
 
 #include "leveldb/env.h"
 #include "leveldb/status.h"
 #include "port/port.h"
-#include "util/mutexlock.h"
+#include "leveldb/util/mutexlock.h"
 #include <map>
 #include <string.h>
 #include <string>
@@ -244,7 +244,7 @@ class InMemoryEnv : public EnvWrapper {
                                    SequentialFile** result) {
     MutexLock lock(&mutex_);
     if (file_map_.find(fname) == file_map_.end()) {
-      *result = NULL;
+      *result = nullptr;
       return Status::IOError(fname, "File not found");
     }
 
@@ -256,7 +256,7 @@ class InMemoryEnv : public EnvWrapper {
                                      RandomAccessFile** result) {
     MutexLock lock(&mutex_);
     if (file_map_.find(fname) == file_map_.end()) {
-      *result = NULL;
+      *result = nullptr;
       return Status::IOError(fname, "File not found");
     }
 
@@ -284,7 +284,7 @@ class InMemoryEnv : public EnvWrapper {
     MutexLock lock(&mutex_);
     FileState** sptr = &file_map_[fname];
     FileState* file = *sptr;
-    if (file == NULL) {
+    if (file == nullptr) {
       file = new FileState();
       file->Ref();
     }

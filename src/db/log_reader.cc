@@ -2,12 +2,12 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file. See the AUTHORS file for names of contributors.
 
-#include "db/log_reader.h"
+#include "leveldb/db/log_reader.h"
 
 #include <stdio.h>
 #include "leveldb/env.h"
-#include "util/coding.h"
-#include "util/crc32c.h"
+#include "leveldb/util/coding.h"
+#include "leveldb/util/crc32c.h"
 
 namespace leveldb {
 namespace log {
@@ -190,7 +190,7 @@ void Reader::ReportCorruption(uint64_t bytes, const char* reason) {
 }
 
 void Reader::ReportDrop(uint64_t bytes, const Status& reason) {
-  if (reporter_ != NULL &&
+  if (reporter_ != nullptr &&
       end_of_buffer_offset_ - buffer_.size() - bytes >= initial_offset_) {
     reporter_->Corruption(static_cast<size_t>(bytes), reason);
   }

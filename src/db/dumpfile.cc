@@ -3,18 +3,18 @@
 // found in the LICENSE file. See the AUTHORS file for names of contributors.
 
 #include <stdio.h>
-#include "db/dbformat.h"
-#include "db/filename.h"
-#include "db/log_reader.h"
-#include "db/version_edit.h"
-#include "db/write_batch_internal.h"
+#include "leveldb/db/dbformat.h"
+#include "leveldb/db/filename.h"
+#include "leveldb/db/log_reader.h"
+#include "leveldb/db/version_edit.h"
+#include "leveldb/db/write_batch_internal.h"
 #include "leveldb/env.h"
 #include "leveldb/iterator.h"
 #include "leveldb/options.h"
 #include "leveldb/status.h"
 #include "leveldb/table.h"
 #include "leveldb/write_batch.h"
-#include "util/logging.h"
+#include "leveldb/util/logging.h"
 
 namespace leveldb {
 
@@ -142,8 +142,8 @@ Status DumpDescriptor(Env* env, const std::string& fname, WritableFile* dst) {
 
 Status DumpTable(Env* env, const std::string& fname, WritableFile* dst) {
   uint64_t file_size;
-  RandomAccessFile* file = NULL;
-  Table* table = NULL;
+  RandomAccessFile* file = nullptr;
+  Table* table = nullptr;
   Status s = env->GetFileSize(fname, &file_size);
   if (s.ok()) {
     s = env->NewRandomAccessFile(fname, &file);

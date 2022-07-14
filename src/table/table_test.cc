@@ -6,20 +6,20 @@
 
 #include <map>
 #include <string>
-#include "db/dbformat.h"
-#include "db/memtable.h"
-#include "db/write_batch_internal.h"
+#include "leveldb/db/dbformat.h"
+#include "leveldb/db/memtable.h"
+#include "leveldb/db/write_batch_internal.h"
 #include "leveldb/db.h"
 #include "leveldb/env.h"
 #include "leveldb/iterator.h"
 #include "leveldb/table_builder.h"
 #include "leveldb/snappy_compressor.h"
-#include "table/block.h"
-#include "table/block_builder.h"
-#include "table/format.h"
-#include "util/random.h"
-#include "util/testharness.h"
-#include "util/testutil.h"
+#include "leveldb/table/block.h"
+#include "leveldb/table/block_builder.h"
+#include "leveldb/table/format.h"
+#include "leveldb/util/random.h"
+#include "leveldb/util/testharness.h"
+#include "leveldb/util/testutil.h"
 
 namespace leveldb {
 
@@ -173,7 +173,7 @@ class Constructor {
 
   virtual const KVMap& data() { return data_; }
 
-  virtual DB* db() const { return NULL; }  // Overridden in DBConstructor
+  virtual DB* db() const { return nullptr; }  // Overridden in DBConstructor
 
  private:
   KVMap data_;
@@ -184,13 +184,13 @@ class BlockConstructor: public Constructor {
   explicit BlockConstructor(const Comparator* cmp)
       : Constructor(cmp),
         comparator_(cmp),
-        block_(NULL) { }
+        block_(nullptr) { }
   ~BlockConstructor() {
     delete block_;
   }
   virtual Status FinishImpl(const Options& options, const KVMap& data) {
     delete block_;
-    block_ = NULL;
+    block_ = nullptr;
     BlockBuilder builder(&options);
 
     for (KVMap::const_iterator it = data.begin();
@@ -223,7 +223,7 @@ class TableConstructor: public Constructor {
  public:
   TableConstructor(const Comparator* cmp)
       : Constructor(cmp),
-        source_(NULL), table_(NULL) {
+        source_(nullptr), table_(nullptr) {
   }
   ~TableConstructor() {
     Reset();
@@ -263,8 +263,8 @@ class TableConstructor: public Constructor {
   void Reset() {
     delete table_;
     delete source_;
-    table_ = NULL;
-    source_ = NULL;
+    table_ = nullptr;
+    source_ = nullptr;
   }
 
   StringSource* source_;
@@ -352,7 +352,7 @@ class DBConstructor: public Constructor {
   explicit DBConstructor(const Comparator* cmp)
       : Constructor(cmp),
         comparator_(cmp) {
-    db_ = NULL;
+    db_ = nullptr;
     NewDB();
   }
   ~DBConstructor() {
@@ -360,7 +360,7 @@ class DBConstructor: public Constructor {
   }
   virtual Status FinishImpl(const Options& options, const KVMap& data) {
     delete db_;
-    db_ = NULL;
+    db_ = nullptr;
     NewDB();
     for (KVMap::const_iterator it = data.begin();
          it != data.end();
@@ -437,11 +437,11 @@ static const int kNumTestArgs = sizeof(kTestArgList) / sizeof(kTestArgList[0]);
 
 class Harness {
  public:
-  Harness() : constructor_(NULL) { }
+  Harness() : constructor_(nullptr) { }
 
   void Init(const TestArgs& args) {
     delete constructor_;
-    constructor_ = NULL;
+    constructor_ = nullptr;
     options_ = Options();
 
     options_.block_restart_interval = args.restart_interval;
@@ -637,7 +637,7 @@ class Harness {
     }
   }
 
-  // Returns NULL if not running against a DB
+  // Returns nullptr if not running against a DB
   DB* db() const { return constructor_->db(); }
 
  private:

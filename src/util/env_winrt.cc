@@ -10,9 +10,9 @@
 #include "leveldb/env.h"
 #include "leveldb/slice.h"
 
-#include "util/win_logger.h"
+#include "leveldb/util/win_logger.h"
 #include "port/port.h"
-#include "util/logging.h"
+#include "leveldb/util/logging.h"
 
 
 #include <deque>
@@ -47,9 +47,9 @@ namespace leveldb {
 		{
 			int len;
 			int wslength = (int)ws.length() + 1;
-			len = WideCharToMultiByte(CP_UTF8, 0, ws.c_str(), wslength, 0, 0, NULL, NULL);
+			len = WideCharToMultiByte(CP_UTF8, 0, ws.c_str(), wslength, 0, 0, nullptr, nullptr);
 			char* buf = new char[len];
-			WideCharToMultiByte(CP_UTF8, 0, ws.c_str(), wslength, buf, len, NULL, NULL);
+			WideCharToMultiByte(CP_UTF8, 0, ws.c_str(), wslength, buf, len, nullptr, nullptr);
 			std::string r(buf);
 			delete[] buf;
 			return r;
@@ -57,13 +57,13 @@ namespace leveldb {
 
 		static Status GetLastWindowsError(const std::string& name) {
 			WCHAR lpBuffer[256] = L"?";
-			FormatMessageW(FORMAT_MESSAGE_FROM_SYSTEM,                 // It´s a system error
-				NULL,                                      // No string to be formatted needed
+			FormatMessageW(FORMAT_MESSAGE_FROM_SYSTEM,                 // Itï¿½s a system error
+				nullptr,                                      // No string to be formatted needed
 				GetLastError(),                               // Hey Windows: Please explain this error!
 				MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),  // Do it in the standard language
 				lpBuffer,              // Put the message here
 				sizeof(lpBuffer) - 1,                     // Number of bytes to store the message
-				NULL);
+				nullptr);
 			return Status::IOError(name, ws2s(lpBuffer).c_str());
 		}
 
@@ -81,7 +81,7 @@ namespace leveldb {
 			// Create parent directories
 			for (char* p = strchr(tmpName, '\\'); p; p = strchr(p + 1, '\\')) {
 				*p = 0;
-				::CreateDirectoryW(GetFullPath(tmpName).c_str(), NULL);  // may or may not already exist
+				::CreateDirectoryW(GetFullPath(tmpName).c_str(), nullptr);  // may or may not already exist
 				*p = '\\';
 			}
 		}
@@ -94,12 +94,12 @@ namespace leveldb {
 			file = ::CreateFile2(path.c_str(),
 				dwDesiredAccess,
 				dwShareMode,
-				dwCreationDisposition, NULL);
+				dwCreationDisposition, nullptr);
 #else
 			file = ::CreateFileW(path.c_str(),
 				dwDesiredAccess,
 				dwShareMode,
-				NULL, dwCreationDisposition, FILE_ATTRIBUTE_NORMAL, NULL);
+				nullptr, dwCreationDisposition, FILE_ATTRIBUTE_NORMAL, nullptr);
 #endif
 			return (file == INVALID_HANDLE_VALUE ? GetLastWindowsError(fname) : Status::OK());
 		}
@@ -144,7 +144,7 @@ namespace leveldb {
 			virtual Status Read(size_t n, Slice* result, char* scratch)
 			{
 				DWORD dwRead;
-				BOOL ret = ::ReadFile(_file, scratch, n, &dwRead, NULL);
+				BOOL ret = ::ReadFile(_file, scratch, n, &dwRead, nullptr);
 				if (!ret)
 					return GetLastWindowsError(_fname);
 				*result = Slice(scratch, dwRead);
@@ -160,7 +160,7 @@ namespace leveldb {
 					if (end.QuadPart > cur.QuadPart)
 					{
 						// couldn't read enough bytes
-						::SetFilePointerEx(_file, cur, NULL, FILE_CURRENT);
+						::SetFilePointerEx(_file, cur, nullptr, FILE_CURRENT);
 						return Status::IOError(_fname, "Couldn't read all data");
 					}
 					else
@@ -174,7 +174,7 @@ namespace leveldb {
 			virtual Status Skip(uint64_t n) {
 				LARGE_INTEGER cur;
 				cur.QuadPart = n;
-				return (!::SetFilePointerEx(_file, cur, NULL, FILE_CURRENT) ? GetLastWindowsError(_fname) : Status::OK());
+				return (!::SetFilePointerEx(_file, cur, nullptr, FILE_CURRENT) ? GetLastWindowsError(_fname) : Status::OK());
 			}
 		};
 
@@ -203,11 +203,11 @@ namespace leveldb {
 				std::unique_lock<std::mutex> lock(_mutex);
 				LARGE_INTEGER cur;
 				cur.QuadPart = offset;
-				if (!::SetFilePointerEx(_file, cur, NULL, FILE_BEGIN))
+				if (!::SetFilePointerEx(_file, cur, nullptr, FILE_BEGIN))
 					return GetLastWindowsError(_fname);
 
 				DWORD dwRead = 0;
-				BOOL ret = ::ReadFile(_file, scratch, n, &dwRead, NULL);
+				BOOL ret = ::ReadFile(_file, scratch, n, &dwRead, nullptr);
 				*result = Slice(scratch, dwRead);
 				lock.unlock();
 				if(!ret) {
@@ -243,7 +243,7 @@ namespace leveldb {
 		public:
 			virtual Status Append(const Slice& data) {
 				DWORD dwWritten;
-				BOOL ret = ::WriteFile(_file, data.data(), data.size(), &dwWritten, NULL);
+				BOOL ret = ::WriteFile(_file, data.data(), data.size(), &dwWritten, nullptr);
 				return ((!ret || dwWritten < data.size()) ? GetLastWindowsError(_fname) : Status::OK());
 			}
 
@@ -303,7 +303,7 @@ namespace leveldb {
 				if (_file != INVALID_HANDLE_VALUE)
 				{
 					if (_fileSizeLow > 0 || _fileSizeHigh > 0)
-						if (!::UnlockFileEx(_file, 0, _fileSizeLow, _fileSizeHigh, NULL))
+						if (!::UnlockFileEx(_file, 0, _fileSizeLow, _fileSizeHigh, nullptr))
 						{
 							Status s = GetLastWindowsError(_fname);
 						}
@@ -367,7 +367,7 @@ namespace leveldb {
 				WIN32_FIND_DATAW ffd;
 				HANDLE hFind;
 				path = dir + "/*";
-				hFind = FindFirstFileExW(GetFullPath(path).c_str(), FINDEX_INFO_LEVELS::FindExInfoStandard, &ffd, FINDEX_SEARCH_OPS::FindExSearchNameMatch, NULL, 0);
+				hFind = FindFirstFileExW(GetFullPath(path).c_str(), FINDEX_INFO_LEVELS::FindExInfoStandard, &ffd, FINDEX_SEARCH_OPS::FindExSearchNameMatch, nullptr, 0);
 
 				if(INVALID_HANDLE_VALUE == hFind) {
 					return GetLastWindowsError(path);
@@ -392,7 +392,7 @@ namespace leveldb {
 
 			virtual Status CreateDir(const std::string& name) {
 				EnsureDirectory(name);
-				::CreateDirectoryW(GetFullPath(name).c_str(), NULL);
+				::CreateDirectoryW(GetFullPath(name).c_str(), nullptr);
 				return Status::OK();
 			};
 
@@ -424,7 +424,7 @@ namespace leveldb {
 			}
 
 			virtual Status LockFile(const std::string& fname, FileLock** lock) {
-				*lock = NULL;
+				*lock = nullptr;
 				if (!FileExists(fname)) {
 					HANDLE file;
 					Status s = OpenFile(fname, GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE, CREATE_ALWAYS, file);
@@ -589,8 +589,8 @@ namespace leveldb {
 			"",                 // Optional parameter to callback function (not used)
 			&lpContext);          // Receives pointer to event object stored in g_InitOnce
 #else
-		if (default_env == NULL)
-			InitDefaultEnv(NULL, NULL, NULL);
+		if (default_env == nullptr)
+			InitDefaultEnv(nullptr, nullptr, nullptr);
 #endif
 
 		return default_env;

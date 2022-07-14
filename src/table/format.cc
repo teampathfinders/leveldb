@@ -2,14 +2,14 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file. See the AUTHORS file for names of contributors.
 
-#include "table/format.h"
+#include "leveldb/table/format.h"
 
 #include "leveldb/env.h"
 #include "leveldb/compressor.h"
 #include "port/port.h"
-#include "table/block.h"
-#include "util/coding.h"
-#include "util/crc32c.h"
+#include "leveldb/table/block.h"
+#include "leveldb/util/coding.h"
+#include "leveldb/util/crc32c.h"
 #include "leveldb/decompress_allocator.h"
 #include <map>
 

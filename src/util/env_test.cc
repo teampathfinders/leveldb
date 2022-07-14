@@ -5,7 +5,7 @@
 #include "leveldb/env.h"
 
 #include "port/port.h"
-#include "util/testharness.h"
+#include "leveldb/util/testharness.h"
 
 namespace leveldb {
 
@@ -28,14 +28,14 @@ static void SetBool(void* ptr) {
 }
 
 TEST(EnvTest, RunImmediately) {
-  port::AtomicPointer called (NULL);
+  port::AtomicPointer called (nullptr);
   env_->Schedule(&SetBool, &called);
   env_->SleepForMicroseconds(kDelayMicros);
-  ASSERT_TRUE(called.NoBarrier_Load() != NULL);
+  ASSERT_TRUE(called.NoBarrier_Load() != nullptr);
 }
 
 TEST(EnvTest, RunMany) {
-  port::AtomicPointer last_id (NULL);
+  port::AtomicPointer last_id (nullptr);
 
   struct CB {
     port::AtomicPointer* last_id_ptr;   // Pointer to shared slot

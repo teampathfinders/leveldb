@@ -62,7 +62,7 @@
 #include <string.h>         /* strerror(), strcmp(), strlen(), memcpy() */
 #include <errno.h>          /* errno */
 #include <fcntl.h>          /* open() */
-#include <unistd.h>         /* read(), write(), close(), chown(), unlink() */
+#include "unistd.h"         /* read(), write(), close(), chown(), unlink() */
 #include <sys/types.h>
 #include <sys/stat.h>       /* stat(), chmod() */
 #include <utime.h>          /* utime() */

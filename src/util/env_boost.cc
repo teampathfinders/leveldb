@@ -40,12 +40,12 @@
 #include "leveldb/slice.h"
 
 #ifdef WIN32
-#include "util/win_logger.h"
+#include "leveldb/util/win_logger.h"
 #else
-#include "util/posix_logger.h"
+#include "leveldb/util/posix_logger.h"
 #endif
 #include "port/port.h"
-#include "util/logging.h"
+#include "leveldb/util/logging.h"
 
 #ifdef __linux
 #include <sys/sysinfo.h>
@@ -257,8 +257,8 @@ class BoostEnv : public Env {
   virtual Status NewSequentialFile(const std::string& fname,
                    SequentialFile** result) {
     FILE* f = fopen(fname.c_str(), "rb");
-    if (f == NULL) {
-      *result = NULL;
+    if (f == nullptr) {
+      *result = nullptr;
       return Status::IOError(fname, strerror(errno));
     } else {
       *result = new PosixSequentialFile(fname, f);
@@ -274,7 +274,7 @@ class BoostEnv : public Env {
     int fd = open(fname.c_str(), O_RDONLY);
 #endif
     if (fd < 0) {
-      *result = NULL;
+      *result = nullptr;
       return Status::IOError(fname, strerror(errno));
     }
     *result = new PosixRandomAccessFile(fname, fd);
@@ -389,7 +389,7 @@ class BoostEnv : public Env {
   }
 
   virtual Status LockFile(const std::string& fname, FileLock** lock) {
-    *lock = NULL;
+    *lock = nullptr;
 
 	Status status;
     try {
@@ -461,8 +461,8 @@ class BoostEnv : public Env {
 
   virtual Status NewLogger(const std::string& fname, Logger** result) {
   FILE* f = fopen(fname.c_str(), "wt");
-  if (f == NULL) {
-    *result = NULL;
+  if (f == nullptr) {
+    *result = nullptr;
     return Status::IOError(fname, strerror(errno));
   } else {
 #ifdef WIN32
@@ -497,7 +497,7 @@ class BoostEnv : public Env {
 
   static void* BGThreadWrapper(void* arg) {
     reinterpret_cast<BoostEnv*>(arg)->BGThread();
-    return NULL;
+    return nullptr;
   }
 
   boost::mutex mu_;
@@ -561,7 +561,7 @@ static void* StartThreadWrapper(void* arg) {
   StartThreadState* state = reinterpret_cast<StartThreadState*>(arg);
   state->user_function(state->arg);
   delete state;
-  return NULL;
+  return nullptr;
 }
 
 void BoostEnv::StartThread(void (*function)(void* arg), void* arg) {

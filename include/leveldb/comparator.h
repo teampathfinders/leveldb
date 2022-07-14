@@ -5,6 +5,7 @@
 #ifndef STORAGE_LEVELDB_INCLUDE_COMPARATOR_H_
 #define STORAGE_LEVELDB_INCLUDE_COMPARATOR_H_
 
+#include "leveldb/pathfinders_support.h"
 #include <string>
 
 namespace leveldb {

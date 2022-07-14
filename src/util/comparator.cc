@@ -7,7 +7,7 @@
 #include "leveldb/comparator.h"
 #include "leveldb/slice.h"
 #include "port/port.h"
-#include "util/logging.h"
+#include "leveldb/util/logging.h"
 
 namespace leveldb {
 

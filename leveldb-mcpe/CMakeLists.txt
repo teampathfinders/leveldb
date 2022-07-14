@@ -190,8 +190,6 @@ target_include_directories(${PROJECT_NAME} PUBLIC
     "${CMAKE_CURRENT_SOURCE_DIR}/../lib/leveldb-mcpe"
 )
 
-target_compile_definitions(${PROJECT_NAME} PRIVATE "-DDLLX=__declspec(dllexport)")
-
 #if("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x64")
     #target_compile_definitions(${PROJECT_NAME} PRIVATE
     #    "WIN32;"

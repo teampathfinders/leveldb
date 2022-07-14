@@ -47,8 +47,8 @@ namespace leveldb {
 		CondVar::CondVar(Mutex* mu) :
 			waiting_(0),
 			mu_(mu),
-			sem1_(::CreateSemaphoreExW(NULL, 0, 10000, NULL, 0, SEMAPHORE_MODIFY_STATE)),
-			sem2_(::CreateSemaphoreExW(NULL, 0, 10000, NULL, 0, SEMAPHORE_MODIFY_STATE)) {
+			sem1_(::CreateSemaphoreExW(nullptr, 0, 10000, nullptr, 0, SEMAPHORE_MODIFY_STATE)),
+			sem2_(::CreateSemaphoreExW(nullptr, 0, 10000, nullptr, 0, SEMAPHORE_MODIFY_STATE)) {
 			assert(mu_);
 		}
 
@@ -68,7 +68,7 @@ namespace leveldb {
 
 			// initiate handshake
 			::WaitForSingleObjectEx(sem1_, INFINITE, FALSE);
-			::ReleaseSemaphore(sem2_, 1, NULL);
+			::ReleaseSemaphore(sem2_, 1, nullptr);
 			mu_->Lock();
 		}
 
@@ -78,7 +78,7 @@ namespace leveldb {
 				--waiting_;
 
 				// finalize handshake
-				bool ret = ::ReleaseSemaphore(sem1_, 1, NULL);
+				bool ret = ::ReleaseSemaphore(sem1_, 1, nullptr);
 				::WaitForSingleObjectEx(sem2_, INFINITE, FALSE);
 			}
 			wait_mtx_.Unlock();
@@ -87,7 +87,7 @@ namespace leveldb {
 		void CondVar::SignalAll() {
 			wait_mtx_.Lock();
 			for (long i = 0; i < waiting_; ++i) {
-				::ReleaseSemaphore(sem1_, 1, NULL);
+				::ReleaseSemaphore(sem1_, 1, nullptr);
 				while (waiting_ > 0) {
 					--waiting_;
 					::WaitForSingleObjectEx(sem2_, INFINITE, FALSE);

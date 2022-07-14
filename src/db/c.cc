@@ -5,7 +5,7 @@
 #include "leveldb/c.h"
 
 #include <stdlib.h>
-#include <unistd.h>
+#include "unistd.h"
 #include "leveldb/cache.h"
 #include "leveldb/comparator.h"
 #include "leveldb/db.h"
@@ -134,15 +134,15 @@ struct leveldb_env_t {
 };
 
 static bool SaveError(char** errptr, const Status& s) {
-  assert(errptr != NULL);
+  assert(errptr != nullptr);
   if (s.ok()) {
     return false;
-  } else if (*errptr == NULL) {
-    *errptr = strdup(s.ToString().c_str());
+  } else if (*errptr == nullptr) {
+    *errptr = _strdup(s.ToString().c_str());
   } else {
     // TODO(sanjay): Merge with existing error?
     free(*errptr);
-    *errptr = strdup(s.ToString().c_str());
+    *errptr = _strdup(s.ToString().c_str());
   }
   return true;
 }
@@ -159,7 +159,7 @@ leveldb_t* leveldb_open(
     char** errptr) {
   DB* db;
   if (SaveError(errptr, DB::Open(options->rep, std::string(name), &db))) {
-    return NULL;
+    return nullptr;
   }
   leveldb_t* result = new leveldb_t;
   result->rep = db;
@@ -204,7 +204,7 @@ char* leveldb_get(
     const char* key, size_t keylen,
     size_t* vallen,
     char** errptr) {
-  char* result = NULL;
+  char* result = nullptr;
   std::string tmp;
   Status s = db->rep->Get(options->rep, Slice(key, keylen), &tmp);
   if (s.ok()) {
@@ -247,9 +247,9 @@ char* leveldb_property_value(
   std::string tmp;
   if (db->rep->GetProperty(Slice(propname), &tmp)) {
     // We use strdup() since we expect human readable output.
-    return strdup(tmp.c_str());
+    return _strdup(tmp.c_str());
   } else {
-    return NULL;
+    return nullptr;
   }
 }
 
@@ -274,9 +274,9 @@ void leveldb_compact_range(
     const char* limit_key, size_t limit_key_len) {
   Slice a, b;
   db->rep->CompactRange(
-      // Pass NULL Slice if corresponding "const char*" is NULL
-      (start_key ? (a = Slice(start_key, start_key_len), &a) : NULL),
-      (limit_key ? (b = Slice(limit_key, limit_key_len), &b) : NULL));
+      // Pass nullptr Slice if corresponding "const char*" is nullptr
+      (start_key ? (a = Slice(start_key, start_key_len), &a) : nullptr),
+      (limit_key ? (b = Slice(limit_key, limit_key_len), &b) : nullptr));
 }
 
 void leveldb_destroy_db(
@@ -423,11 +423,11 @@ void leveldb_options_set_paranoid_checks(
 }
 
 void leveldb_options_set_env(leveldb_options_t* opt, leveldb_env_t* env) {
-  opt->rep.env = (env ? env->rep : NULL);
+  opt->rep.env = (env ? env->rep : nullptr);
 }
 
 void leveldb_options_set_info_log(leveldb_options_t* opt, leveldb_logger_t* l) {
-  opt->rep.info_log = (l ? l->rep : NULL);
+  opt->rep.info_log = (l ? l->rep : nullptr);
 }
 
 void leveldb_options_set_write_buffer_size(leveldb_options_t* opt, size_t s) {
@@ -533,7 +533,7 @@ leveldb_filterpolicy_t* leveldb_filterpolicy_create_bloom(int bits_per_key) {
   };
   Wrapper* wrapper = new Wrapper;
   wrapper->rep_ = NewBloomFilterPolicy(bits_per_key);
-  wrapper->state_ = NULL;
+  wrapper->state_ = nullptr;
   wrapper->destructor_ = &Wrapper::DoNothing;
   return wrapper;
 }
@@ -560,7 +560,7 @@ void leveldb_readoptions_set_fill_cache(
 void leveldb_readoptions_set_snapshot(
     leveldb_readoptions_t* opt,
     const leveldb_snapshot_t* snap) {
-  opt->rep.snapshot = (snap ? snap->rep : NULL);
+  opt->rep.snapshot = (snap ? snap->rep : nullptr);
 }
 
 leveldb_writeoptions_t* leveldb_writeoptions_create() {

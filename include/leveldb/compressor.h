@@ -1,5 +1,6 @@
 #pragma once
 
+#include "leveldb/pathfinders_support.h"
 #include <string>
 #include <cassert>
 #include <cstdint>

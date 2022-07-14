@@ -5,8 +5,8 @@
 #include "leveldb/env.h"
 
 #include "port/port.h"
-#include "util/testharness.h"
-#include "util/env_posix_test_helper.h"
+#include "leveldb/util/testharness.h"
+#include "leveldb/util/env_posix_test_helper.h"
 
 namespace leveldb {
 
@@ -32,7 +32,7 @@ TEST(EnvPosixTest, TestOpenOnRead) {
   std::string test_file = test_dir + "/open_on_read.txt";
 
   FILE* f = fopen(test_file.c_str(), "w");
-  ASSERT_TRUE(f != NULL);
+  ASSERT_TRUE(f != nullptr);
   const char kFileData[] = "abcdefghijklmnopqrstuvwxyz";
   fputs(kFileData, f);
   fclose(f);

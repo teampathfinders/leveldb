@@ -49,8 +49,8 @@ namespace port {
 CondVar::CondVar(Mutex* mu) :
     waiting_(0), 
     mu_(mu), 
-    sem1_(::CreateSemaphoreExA(NULL, 0, 10000, NULL, 0, SEMAPHORE_MODIFY_STATE)), 
-    sem2_(::CreateSemaphoreExA(NULL, 0, 10000, NULL, 0, SEMAPHORE_MODIFY_STATE)) {
+    sem1_(::CreateSemaphoreExA(nullptr, 0, 10000, nullptr, 0, SEMAPHORE_MODIFY_STATE)),
+    sem2_(::CreateSemaphoreExA(nullptr, 0, 10000, nullptr, 0, SEMAPHORE_MODIFY_STATE)) {
   assert(mu_);
 }
 
@@ -70,7 +70,7 @@ void CondVar::Wait() {
 
   // initiate handshake
   ::WaitForSingleObjectEx( sem1_, INFINITE, FALSE );
-  ::ReleaseSemaphore(sem2_, 1, NULL);
+  ::ReleaseSemaphore(sem2_, 1, nullptr);
   mu_->Lock();
 }
 
@@ -80,7 +80,7 @@ void CondVar::Signal() {
     --waiting_;
 
     // finalize handshake
-    ::ReleaseSemaphore( sem1_, 1, NULL );
+    ::ReleaseSemaphore( sem1_, 1, nullptr );
     ::WaitForSingleObjectEx( sem2_, INFINITE, FALSE );
   }
   wait_mtx_.Unlock();
@@ -89,7 +89,7 @@ void CondVar::Signal() {
 void CondVar::SignalAll() {
   wait_mtx_.Lock();
   for(long i = 0; i < waiting_; ++i) {
-    ::ReleaseSemaphore(sem1_, 1, NULL);
+    ::ReleaseSemaphore(sem1_, 1, nullptr);
     while(waiting_ > 0) {
         --waiting_;
         ::WaitForSingleObjectEx( sem2_, INFINITE, FALSE );
