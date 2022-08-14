@@ -10,7 +10,6 @@ set(Source_Files
     "src/db/dbformat.cc"
     "src/db/dumpfile.cc"
     "src/db/filename.cc"
-    "src/db/leveldbutil.cc"
     "src/db/log_reader.cc"
     "src/db/log_writer.cc"
     "src/db/memtable.cc"
