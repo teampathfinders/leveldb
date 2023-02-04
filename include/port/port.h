@@ -14,7 +14,7 @@
 #  include "port/port_posix.h"
 #elif defined(LEVELDB_PLATFORM_CHROMIUM)
 #  include "port/port_chromium.h"
-#elif defined(WIN32)
+#elif defined(_WIN32)
 #  include "port/port_win.h"
 #endif
 
