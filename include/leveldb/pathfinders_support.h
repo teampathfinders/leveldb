@@ -1,9 +1,6 @@
 #ifndef PATHFINDERS_LEVELDB_SUPPORT_H
 #define PATHFINDERS_LEVELDB_SUPPORT_H
 
-// Used for https://github.com/pathfinders-group/blockpoint
-// By RadiatedMonkey
-
 #include <cstdint>
 
 using ssize_t = intptr_t;

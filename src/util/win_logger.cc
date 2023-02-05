@@ -4,7 +4,7 @@
 
 #include "leveldb/util/win_logger.h"
 
-#ifdef WIN32
+#ifdef _WIN32
 
 #include <windows.h>
 

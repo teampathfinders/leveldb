@@ -232,7 +232,7 @@ namespace leveldb {
 
 			virtual Status NewRandomAccessFile(const std::string& fname,
 				RandomAccessFile** result) {
-#ifdef WIN32
+#ifdef _WIN32
 				int fd = _open(fname.c_str(), _O_RDONLY | _O_RANDOM | _O_BINARY);
 #else
 				int fd = open(fname.c_str(), O_RDONLY);
@@ -413,7 +413,7 @@ namespace leveldb {
 				return Status::OK();
 			}
 
-#ifndef WIN32
+#ifndef _WIN32
 			static uint64_t gettid() {
 				pthread_t tid = pthread_self();
 				uint64_t thread_id = 0;
@@ -428,7 +428,7 @@ namespace leveldb {
 					*result = nullptr;
 					return Status::IOError(fname, strerror(errno));
 				} else {
-#ifdef WIN32
+#ifdef _WIN32
 					*result = new WinLogger(f);
 #else
 					*result = new PosixLogger(f, &WinEnv::gettid);

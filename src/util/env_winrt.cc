@@ -463,7 +463,7 @@ namespace leveldb {
 				return Status::OK();
 			}
 
-#ifndef WIN32
+#ifndef _WIN32
 			static uint64_t gettid() {
 				pthread_t tid = pthread_self();
 				uint64_t thread_id = 0;
