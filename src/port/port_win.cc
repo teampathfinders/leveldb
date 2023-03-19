@@ -30,6 +30,8 @@
 
 #include "port/port_win.h"
 
+#ifdef _WIN32
+
 #define _WIN32_WINNT 0x0600
 
 #include <windows.h>
@@ -122,3 +124,5 @@ void AtomicPointer::NoBarrier_Store(void* v) {
 
 }
 }
+
+#endif

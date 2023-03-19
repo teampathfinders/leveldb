@@ -74,5 +74,5 @@ if(MSVC)
 endif()
 
 if(UNIX)
-    target_compile_definitions(${PROJECT_NAME} PRIVATE -DLEVELDB_PLATFORM_POSIX)
+    target_compile_definitions(${PROJECT_NAME} PRIVATE -DLEVELDB_PLATFORM_POSIX -DLEVELDB_PLATFORM_POSIX_SSE)
 endif()
