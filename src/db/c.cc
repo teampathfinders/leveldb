@@ -21,6 +21,10 @@
 #include "leveldb/snappy_compressor.h"
 #endif
 
+#ifdef LEVELDB_PLATFORM_POSIX
+#define _strdup strdup
+#endif
+
 using leveldb::Cache;
 using leveldb::Comparator;
 using leveldb::DB;
