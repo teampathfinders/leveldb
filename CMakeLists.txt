@@ -75,6 +75,10 @@ if(MSVC)
     target_compile_options(${PROJECT_NAME} PRIVATE /w)
 endif()
 
+if(APPLE)
+    target_compile_definitions(${PROJECT_NAME} PRIVATE -DOS_MACOSX)
+endif()
+
 if(UNIX)
     target_compile_definitions(${PROJECT_NAME} PRIVATE -DLEVELDB_PLATFORM_POSIX)
 endif()
