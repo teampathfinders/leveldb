@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.0 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.13 FATAL_ERROR)
 project(leveldb-mcpe C CXX)
 
 set(CMAKE_CXX_STANDARD 11)
@@ -75,6 +75,7 @@ if(MSVC)
 endif()
 
 if(UNIX)
-    target_compile_definitions(${PROJECT_NAME} PRIVATE -DLEVELDB_PLATFORM_POSIX _GLIBCXX_USE_CXX11_ABI=1)
-    target_link_options(${PROJECT_NAME} PRIVATE -lstdc++)
+    target_compile_definitions(${PROJECT_NAME} PRIVATE -DLEVELDB_PLATFORM_POSIX)
+    target_compile_options(${PROJECT_NAME} -lstdc++)
+    target_link_options(${PROJECT_NAME} -lstdc++)
 endif()
