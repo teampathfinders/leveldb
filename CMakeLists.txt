@@ -75,5 +75,6 @@ if(MSVC)
 endif()
 
 if(UNIX)
-    target_compile_definitions(${PROJECT_NAME} PRIVATE -DLEVELDB_PLATFORM_POSIX _GLIBCXX_USE_CXX11_ABI=0)
+    target_compile_definitions(${PROJECT_NAME} PRIVATE -DLEVELDB_PLATFORM_POSIX _GLIBCXX_USE_CXX11_ABI=1)
+    target_compile_options(${PROJECT_NAME} PRIVATE -lsupc++)
 endif()
