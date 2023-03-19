@@ -22,6 +22,7 @@ set(Source_Files
     "src/db/zlib_compressor.cc"
     "src/helpers/memenv/memenv.cc"
     "src/port/port_posix.cc"
+    "src/port/port_posix_sse.cc"
     "src/port/port_win.cc"
     "src/table/block.cc"
     "src/table/block_builder.cc"
