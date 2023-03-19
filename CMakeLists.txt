@@ -72,3 +72,7 @@ target_include_directories(${PROJECT_NAME} PUBLIC "lib" "include/port" "include"
 if(MSVC)
     target_compile_options(${PROJECT_NAME} PRIVATE /w)
 endif()
+
+if(UNIX)
+    target_compile_definitions(${PROJECT_NAME} PRIVATE -DLEVELDB_PLATFORM_POSIX)
+endif()
