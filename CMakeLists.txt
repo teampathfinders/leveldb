@@ -21,6 +21,7 @@ set(Source_Files
     "src/db/write_batch.cc"
     "src/db/zlib_compressor.cc"
     "src/helpers/memenv/memenv.cc"
+    "src/port/port_posix.cc"
     "src/port/port_posix_sse.cc"
     "src/port/port_win.cc"
     "src/table/block.cc"
@@ -74,5 +75,5 @@ if(MSVC)
 endif()
 
 if(UNIX)
-    target_compile_definitions(${PROJECT_NAME} PRIVATE -DLEVELDB_PLATFORM_POSIX)
+    target_compile_definitions(${PROJECT_NAME} PRIVATE -DLEVELDB_PLATFORM_POSIX _GLIBCXX_USE_CXX11_ABI=0)
 endif()
