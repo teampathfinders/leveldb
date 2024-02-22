@@ -158,6 +158,9 @@ DBImpl::~DBImpl() {
 
   if (db_lock_ != nullptr) {
     env_->UnlockFile(db_lock_);
+
+    // Delete the lock file as well
+    env_->DeleteFile(LockFileName(dbname_));
   }
 
   delete versions_;
@@ -276,16 +279,7 @@ void DBImpl::DeleteObsoleteFiles() {
 Status DBImpl::Recover(VersionEdit* edit, bool *save_manifest) {
   mutex_.AssertHeld();
 
-  // Ignore error from CreateDir since the creation of the DB is
-  // committed only when the descriptor is created, and this directory
-  // may already exist from a previous failed creation attempt.
-  env_->CreateDir(dbname_);
-  assert(db_lock_ == nullptr);
-  Status s = env_->LockFile(LockFileName(dbname_), &db_lock_);
-  if (!s.ok()) {
-    return s;
-  }
-
+  Status s;
   if (!env_->FileExists(CurrentFileName(dbname_))) {
     if (options_.create_if_missing) {
       s = NewDB();
@@ -301,6 +295,18 @@ Status DBImpl::Recover(VersionEdit* edit, bool *save_manifest) {
       return Status::InvalidArgument(
           dbname_, "exists (error_if_exists is true)");
     }
+  }
+
+
+  // Ignore error from CreateDir since the creation of the DB is
+  // committed only when the descriptor is created, and this directory
+  // may already exist from a previous failed creation attempt.
+  env_->CreateDir(dbname_);
+  assert(db_lock_ == nullptr);
+
+  s = env_->LockFile(LockFileName(dbname_), &db_lock_);
+  if (!s.ok()) {
+    return s;
   }
 
   s = versions_->Recover(save_manifest);
@@ -1568,11 +1574,13 @@ Status DB::Open(const Options& options, const std::string& dbname,
   *dbptr = nullptr;
 
   DBImpl* impl = new DBImpl(options, dbname);
+
   impl->mutex_.Lock();
   VersionEdit edit;
   // Recover handles create_if_missing, error_if_exists
   bool save_manifest = false;
   Status s = impl->Recover(&edit, &save_manifest);
+
   if (s.ok() && impl->mem_ == nullptr) {
     // Create new log and a corresponding memtable.
     uint64_t new_log_number = impl->versions_->NewFileNumber();

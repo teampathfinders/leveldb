@@ -386,6 +386,11 @@ namespace leveldb {
 				Status status;
 				if(!FileExists(fname)) {
 					std::ofstream of(fname, std::ios_base::trunc | std::ios_base::out);
+				} else {
+					// Why didn't Mojang's LevelDB port check whether a LOCK file exist?
+					// That just defeats the whole purpose of them.
+					// So here is my useful addition.
+					return Status::IOError("This LevelDB database is already in use");
 				}
 				*lock = new WinFileLock(fname);
 
