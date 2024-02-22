@@ -13,6 +13,8 @@
 #include <string.h>
 #include "port/port.h"
 
+#define LEVELDB_PLATFORM_POSIX_SSE
+
 #if defined(LEVELDB_PLATFORM_POSIX_SSE)
 
 #if defined(_MSC_VER)
