@@ -82,3 +82,7 @@ endif()
 if(UNIX)
     target_compile_definitions(${PROJECT_NAME} PRIVATE -DLEVELDB_PLATFORM_POSIX)
 endif()
+
+# Enable SIMD accelerated CRC32C computation.
+# This flag is also used by the Windows port, despite being named POSIX.
+target_compile_definitions(${PROJECT_NAME} PRIVATE -DLEVELDB_PLATFORM_POSIX_SSE)
